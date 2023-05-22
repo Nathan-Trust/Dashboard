@@ -5,6 +5,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import {
   Box,
   List,
@@ -20,6 +21,7 @@ const Calendar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [currentEvents, setCurrentEvents] = useState([]);
+  const breakPoint = useMediaQuery("(max-width:674px)")
 
   const handleDateClick = (selected) => {
     const title = prompt("Please enter a new title for your event");
@@ -51,7 +53,7 @@ const Calendar = () => {
     <Box m="20px">
       <Header title="Calendar" subtitle="Full Calendar Interactive Page" />
 
-      <Box display="flex" justifyContent="space-between">
+      <Box display={breakPoint ? "block" : "flex"} justifyContent="space-between">
         {/* CALENDAR SIDEBAR */}
         <Box
           flex="1 1 20%"
@@ -88,7 +90,7 @@ const Calendar = () => {
         </Box>
 
         {/* CALENDAR */}
-        <Box flex="1 1 100%" ml="15px">
+        <Box flex="1 1 100%" ml="15px" marginTop={breakPoint ? "7px" : undefined}>
           <FullCalendar
             height="70vh"
             plugins={[

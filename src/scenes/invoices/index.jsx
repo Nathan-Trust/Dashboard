@@ -3,10 +3,16 @@ import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataInvoices } from "../../data/mockData";
 import Header from "../../components/Header";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Invoices = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const onNonMobile = useMediaQuery("(max-width:992px)")
+  const breakPoint = useMediaQuery("(max-width:674px)")
+
+
+
   const columns = [
     { field: "id", headerName: "ID" },
     {
@@ -74,7 +80,32 @@ const Invoices = () => {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataInvoices} columns={columns} />
+        <DataGrid checkboxSelection rows={mockDataInvoices} columns={breakPoint ? [
+           {
+            field: "cost",
+            headerName: "Cost",
+            flex: 1,
+            renderCell: (params) => (
+              <Typography color={colors.greenAccent[500]}>
+                ${params.row.cost}
+              </Typography>
+            ),
+          }
+        ] : onNonMobile ? [    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    }, {
+      field: "cost",
+      headerName: "Cost",
+      flex: 1,
+      renderCell: (params) => (
+        <Typography color={colors.greenAccent[500]}>
+          ${params.row.cost}
+        </Typography>
+      ),
+    },] : columns} />
       </Box>
     </Box>
   );

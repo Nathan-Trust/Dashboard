@@ -4,10 +4,16 @@ import { tokens } from "../../theme";
 import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 
 const Contacts = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const onNonMobile = useMediaQuery("(max-width:992px)")
+  const breakPoint = useMediaQuery("(max-width:674px)")
+
+
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
@@ -92,7 +98,23 @@ const Contacts = () => {
       >
         <DataGrid
           rows={mockDataContacts}
-          columns={columns}
+          columns={breakPoint ? [  {
+            field: "address",
+            headerName: "Address",
+            flex: 1,
+          },] : onNonMobile ?[
+            {
+              field: "phone",
+              headerName: "Phone Number",
+              flex: 1,
+              
+            },
+            {
+              field: "address",
+              headerName: "Address",
+              flex: 1,
+            }
+          ] : columns}
           components={{ Toolbar: GridToolbar }}
         />
       </Box>
